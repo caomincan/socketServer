@@ -2,18 +2,13 @@
 
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,7 +31,6 @@ public class studentServer {
     		if(line_1.contains("GET")){
     			String[] words = line_1.split(" ");
     			String fileName = words[1].replaceAll("/", "");
-    			Charset charset = Charset.forName("UTF-8");
     			try {
     				File file = new File(fileName);
     				if(file.exists()){
@@ -93,9 +87,13 @@ public class studentServer {
       			// Return response to client
       			System.out.println("My response");
       			for(int i=0;i<response.size();i++){
-      				System.out.println(response.get(i));
+      				if(i<2) {System.out.println(response.get(i));}
+      				else if(i==2) {System.out.println("\r\nfile-content");}
       				out.println(response.get(i));
-      			}	
+      			}
+      			// close stream
+      			in.close();
+      			out.close();
       		} catch(IOException e){
       			throw e;
       		} finally{
